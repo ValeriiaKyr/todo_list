@@ -5,6 +5,9 @@ from django.urls import reverse
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
     def get_absolute_url(self):
         return reverse("app:tag-list", kwargs={"pk": self.pk})
 
@@ -18,3 +21,6 @@ class Task(models.Model):
 
     class Meta:
         ordering = ["done", '-created_at']
+
+    def get_absolute_url(self):
+        return reverse("app:todo-list", kwargs={"pk": self.pk})

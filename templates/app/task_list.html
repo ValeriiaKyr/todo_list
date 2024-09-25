@@ -3,9 +3,9 @@
 {% block content %}
   <h1>
     TODO list
-{#    <a href="{% url 'taxi:car-create' %}" class="btn btn-primary link-to-page">#}
-{#      Create#}
-{#    </a>#}
+    <a href="{% url "app:todo-create" %}" class="btn btn-primary link-to-page">
+      Add task
+    </a>
   </h1>
   
   {% if task_list %}
@@ -14,22 +14,39 @@
         <li>
           <b>{{ task.description }}
           {% if task.done %}
-            Done
+            <p style="color: limegreen">Done</p>
           {% else %}
-            Not done
+            <p style="color: red">Not done</p>
           {% endif %}
           </b>
-          <br>
+          
           <p>
-            Created: {{ task.created_at }}
+            Created: {{ task.created_at }} 
+          {% if task.deadline %}
+            <p style="color: brown">Deadline: {{ task.deadline }}<p/>
+            
+          {% endif %}
             <br>
             Tags: 
             {% for tag in task.tags.all %}
               {{ tag.name }}
-            {% endfor %}  
+            {% endfor %} 
+          <a href="{% url "app:todo-update" pk=task.id %}">
+            Update
+          </a>
+          <a href="{% url "app:todo-delete" pk=task.id %}">
+            Delete
+          </a>
           </p>
-          
-        
+          {% if task.done %}
+          <a href="{% url "app:todo-complete" pk=task.id %}" class="btn btn-secondary link-to-page">
+            Undo
+          </a>
+        {% else %}
+          <a href="{% url "app:todo-complete" pk=task.id %}" class="btn btn-success link-to-page">
+            Complete
+          </a>
+        {% endif %}
         </li>
       {% endfor %}
     </ul>
